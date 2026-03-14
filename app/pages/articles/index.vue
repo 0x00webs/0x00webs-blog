@@ -1,3 +1,3 @@
 <template>
-  <p>blog page</p>
+  <p>blog pages</p>
 </template>

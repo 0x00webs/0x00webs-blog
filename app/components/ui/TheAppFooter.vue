@@ -5,35 +5,39 @@ import siteConfig from '~/app.meta'
 <template>
   <UFooter>
     <template #left>
-      <p class="text-sm text-muted-foreground">
-        &copy; {{ new Date().getFullYear() }} 0x00webs. All rights reserved.
-      </p>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-1">
+        <span class="text-sm text-muted-foreground">
+          &copy; {{ new Date().getFullYear() }} {{ siteConfig.name }}.
+        </span>
+        <span class="text-sm text-muted-foreground hidden sm:inline"> All rights reserved. </span>
+      </div>
     </template>
 
     <template #right>
-      <!-- Social Links -->
-      <div class="flex space-x-4">
-        <UButton
-          :to="siteConfig.author.socialLinks?.github"
-          variant="ghost"
-          size="sm"
-          :icon="'i-lucide-github'"
-          aria-label="GitHub"
-        />
-        <UButton
-          :to="siteConfig.author.socialLinks?.twitter"
-          variant="ghost"
-          size="sm"
-          :icon="'i-lucide-twitter'"
-          aria-label="Twitter"
-        />
-        <UButton
-          :to="siteConfig.author.socialLinks?.linkedin"
-          variant="ghost"
-          size="sm"
-          :icon="'i-lucide-linkedin'"
-          aria-label="LinkedIn"
-        />
+      <div class="flex items-center gap-2">
+        <div class="hidden sm:flex items-center gap-2">
+          <UButton
+            :to="siteConfig.author.socialLinks?.github"
+            variant="ghost"
+            size="sm"
+            :icon="'i-lucide-github'"
+            aria-label="GitHub"
+          />
+          <UButton
+            :to="siteConfig.author.socialLinks?.twitter"
+            variant="ghost"
+            size="sm"
+            :icon="'i-lucide-twitter'"
+            aria-label="Twitter"
+          />
+          <UButton
+            :to="siteConfig.author.socialLinks?.linkedin"
+            variant="ghost"
+            size="sm"
+            :icon="'i-lucide-linkedin'"
+            aria-label="LinkedIn"
+          />
+        </div>
       </div>
     </template>
   </UFooter>

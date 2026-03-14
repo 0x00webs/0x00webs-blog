@@ -10,7 +10,7 @@ const author: Author = {
   },
   socialLinks: {
     twitter: 'https://twitter.com/0x00webs',
-    github: 'https:///github.com/0x00webs',
+    github: 'https://github.com/0x00webs',
     linkedin: 'https://www.linkedin.com/in/0x00webs',
     website: 'https://0x00webs.dev'
   },

@@ -16,7 +16,6 @@ export default defineNuxtConfig({
   devtools: {
     enabled: true
   },
-
   app: {
     head: {
       title: '0x00webs Blog',
@@ -98,17 +97,48 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  // Global site metadata for SEO and social sharing
+  site: {
+    url: process.env.NUXT_PUBLIC_SITE_URL,
+    name: '0x00webs Blog',
+    description: 'A blog about web development, programming, and technology.',
+    defaultImage: '/default-og-image.png',
+    twitter: '@0x00webs',
+    github: '0x00webs',
+    linkedin: '0x00webs',
+    email: '0x00webs@gmail.com'
+  },
+
+  colorMode: {
+    preference: 'system',
+    fallback: 'light',
+    classSuffix: '',
+    storageKey: 'vueuse-color-scheme'
+  },
+
+  ui: {
+    experimental: {
+      componentDetection: true
+    }
+  },
+
   routeRules: {
     '/': { prerender: true }
   },
 
+  // HTTPS Development Server Configuration
   devServer: {
     host: 'localhost',
-    port: 3000
+    port: 5173,
+    https: {
+      key: process.env.NUXT_HTTPS_KEY,
+      cert: process.env.NUXT_HTTPS_CERT
+    }
   },
 
   compatibilityDate: '2025-01-15',
 
+  // ── Vite Configuration for HMR and Development Server
   vite: {
     server: {
       allowedHosts: true,
@@ -120,6 +150,7 @@ export default defineNuxtConfig({
     }
   },
 
+  // -- AOS (Animate On Scroll) Configuration
   aos: {
     // Global settings:
     disable: false, // accepts following values: 'phone', 'tablet', 'mobile', boolean, expression or function
@@ -140,6 +171,8 @@ export default defineNuxtConfig({
     mirror: true, // whether elements should animate out while scrolling past them
     anchorPlacement: 'top-bottom' // defines which position of the element regarding to window should trigger the animation
   },
+
+  // ── ESLint ─────────────────────────────────────────────────
   eslint: {
     config: {
       typescript: true,
@@ -150,11 +183,79 @@ export default defineNuxtConfig({
     }
   },
 
+  // ── Fonts ─────────────────────────────────────────────────
   fonts: {
+    // Global defaults to ensure consistency across all fonts
+    defaults: {
+      weights: [400, 500, 700],
+      styles: ['normal', 'italic'],
+      subsets: ['latin']
+    },
     families: [
-      // Loads the Hack font from a supported provider
-      { name: 'Hack', provider: 'google' },
-      { name: 'Fira Code', provider: 'google' }
+      // SANS-SERIF: Clean, tech-focused, and highly readable
+      { name: 'Inter', weights: [300, 400, 500, 600, 700, 800, 900] },
+      { name: 'Roboto', weights: [300, 400, 500, 700, 900] },
+      { name: 'IBM Plex Sans', weights: [300, 400, 500, 600, 700] },
+
+      // SERIF: Elegant, authoritative, and sophisticated
+      { name: 'Playfair Display', weights: [400, 700, 900] },
+      { name: 'EB Garamond', weights: [400, 500, 700] },
+      { name: 'Lora', weights: [400, 500, 600, 700] },
+
+      // MONO: Professional developer & technical display
+      { name: 'JetBrains Mono', weights: [400, 500, 700] },
+
+      // TYPEWRITER: The "Selectric" heritage — professional, tech-heavy, and crisp
+      { name: 'IBM Plex Mono', weights: [300, 400, 500, 600] },
+
+      // ANALOG TYPEWRITER: Weathered, "Top-Secret" document style
+      { name: 'Special Elite', weights: [400] }
     ]
+  },
+
+  // ── Icon ───────────────────────────────────────────────────
+  icon: {
+    size: '1.2em',
+    class: 'icon',
+    serverBundle: 'auto'
+  },
+
+  // ── Image ──────────────────────────────────────────────────
+  image: {
+    quality: 80,
+    format: ['webp', 'avif'],
+    screens: {
+      xs: 320,
+      sm: 640,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1536
+    }
+  },
+  // ── Link Checker ───────────────────────────────────────────
+  linkChecker: {
+    enabled: true
+  },
+
+  // ── OG Image ───────────────────────────────────────────────
+  ogImage: {
+    enabled: true
+  },
+
+  // ── Robots ─────────────────────────────────────────────────
+  robots: {
+    disallow: ['/dashboard', '/auth'],
+    allow: '/'
+  },
+
+  // ── Schema.org ─────────────────────────────────────────────
+  schemaOrg: {
+    identity: {
+      type: 'Organization',
+      name: 'FOTA',
+      logo: '/android-icon-192x192.png',
+      url: process.env.NUXT_PUBLIC_SITE_URL
+    }
   }
 })

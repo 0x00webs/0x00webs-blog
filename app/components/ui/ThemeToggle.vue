@@ -1,18 +1,25 @@
 <script lang="ts" setup>
-const colorMode = useColorMode()
+import { useColorMode } from '@vueuse/core'
+import { computed } from 'vue'
+
 const { $refreshHardAos } = useNuxtApp()
+const mode = useColorMode({
+  attribute: 'class',
+  storageKey: 'vueuse-color-scheme',
+  initialValue: 'auto',
+  modes: {
+    dark: 'dark',
+    light: 'light'
+  }
+})
 
 type ThemeEvent = MouseEvent | TouchEvent
 
-enum ColorMode {
-  light = 'light',
-  dark = 'dark'
-}
-
-const newTheme = computed(() => (colorMode.value === 'dark' ? 'light' : 'dark'))
+const newTheme = computed(() => (mode.value === 'dark' ? 'light' : 'dark'))
+const currentIcon = computed(() => (mode.value === 'dark' ? 'sun' : 'moon'))
 
 const toggleTheme = () => {
-  colorMode.preference = newTheme.value
+  mode.value = newTheme.value
 }
 
 const startViewTransition = (event: ThemeEvent) => {
@@ -58,26 +65,26 @@ const startViewTransition = (event: ThemeEvent) => {
 
 <template>
   <ClientOnly>
-    <UTooltip :text="`Switch to ${newTheme} mode`" :kbds:="['Enter', 'Space']">
+    <UTooltip :text="`Switch to ${newTheme} mode`" :kbds="['Enter', 'Space']">
       <UButton
         :aria-label="`Switch to ${newTheme} mode`"
         :aria-current-value="`Switch to ${newTheme} mode`"
-        :icon="`i-lucide-${newTheme === ColorMode.light ? 'moon' : 'sun'}`"
+        :icon="`i-lucide-${currentIcon}`"
         color="neutral"
         variant="ghost"
         size="md"
-        class="rounded-full"
+        class="rounded-full cursor-pointer bg-transparent hover:bg-primary/10 dark:hover:bg-primary/20 transition"
         @click="startViewTransition"
       />
 
       <template #fallback>
         <UButton
           :aria-label="`Switch to ${newTheme} mode`"
-          :icon="`i-lucide-${newTheme === ColorMode.light ? 'moon' : 'sun'}`"
+          :icon="`i-lucide-${currentIcon}`"
           color="neutral"
           variant="ghost"
           size="md"
-          class="rounded-full"
+          class="rounded-full bg-red-600"
           @click="
             () => {
               toggleTheme()

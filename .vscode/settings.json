@@ -1,64 +1,76 @@
 {
-  "js/ts.preferences.importModuleSpecifier": "non-relative",
-  "eslint.workingDirectories": [
-    {
-      "mode": "auto"
-    }
-  ],
-  "eslint.validate": [
-    "javascript",
-    "typescript",
-    "vue"
-  ],
-  "files.associations": {
-    "*.css": "tailwindcss"
-  },
-  "editor.quickSuggestions": {
-    "strings": "on"
-  },
-  "tailwindCSS.classAttributes": [
-    "class",
-    "ui"
-  ],
-  "tailwindCSS.experimental.classRegex": [
-    [
-      "ui:\\s*{([^)]*)\\s*}",
-      "(?:'|\"|`)([^']*)(?:'|\"|`)"
-    ]
-  ],
-  "tailwindCSS.experimental.configFile": "app/assets/css/main.css",
-  "[css]": {
-    "editor.suggest.insertMode": "replace",
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "vue.format.style.enabled": true,
-  "vue.format.template.enabled": true,
-  "vue.format.script.enabled": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": "explicit",
-    "source.fixAll.eslint": "explicit",
-    "source.organizeImports": "explicit"
-  },
-  "editor.formatOnSave": true,
-  "editor.formatOnPaste": true,
-  "editor.formatOnType": true,
-  "css.format.enable": true,
-  "editor.insertSpaces": true,
-  "editor.tabSize": 2,
-  "editor.detectIndentation": false,
-  "[vue]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "[typescript]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
-  "[javascript]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
-  },
+	"[css]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode",
+		"editor.insertSpaces": true,
+		"editor.suggest.insertMode": "replace",
+		"editor.tabSize": 2
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2
+	},
+	"[vue]": {
+		"editor.defaultFormatter": "dbaeumer.vscode-eslint",
+		"editor.insertSpaces": true,
+		"editor.tabSize": 2
+	},
+	"js/ts.format.semicolons": "remove",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit",
+		"source.organizeImports": "explicit"
+	},
+	"editor.formatOnSave": false,
+	"css.format.enable": true,
+	"editor.detectIndentation": false,
+	"editor.formatOnPaste": false,
+	"editor.formatOnType": false,
+	"editor.insertSpaces": true,
+	"editor.quickSuggestions": {
+		"strings": "on"
+	},
+	"editor.tabSize": 2,
+	"eslint.validate": [
+		"javascript",
+		"typescript",
+		"vue"
+	],
+	"eslint.workingDirectories": [
+		{
+			"mode": "auto"
+		}
+	],
+	"files.associations": {
+		"*.css": "tailwindcss",
+		"*.js": "javascript",
+		"*.ts": "typescript",
+		"*.vue": "vue"
+	},
+	"files.exclude": {
+		"**/.DS_Store": true,
+		"**/.git": true,
+		"**/.nuxt": true,
+		"**/dist": true,
+		"**/node_modules": true
+	},
+	"js/ts.preferences.importModuleSpecifier": "non-relative",
+	"tailwindCSS.classAttributes": [
+		"class",
+		"ui"
+	],
+	"tailwindCSS.experimental.classRegex": [
+		[
+			"ui:\\s*{([^)]*)\\s*}",
+			"(?:'|\"|`)([^']*)(?:'|\"|`)"
+		]
+	],
+	"tailwindCSS.experimental.configFile": "app/assets/css/main.css",
+	"vue.format.script.enabled": false,
+	"vue.format.style.enabled": true,
+	"vue.format.template.enabled": true
 }

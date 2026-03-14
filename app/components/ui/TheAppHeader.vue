@@ -1,45 +1,50 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
-import siteConfig from '~/app.meta'
-import TemplateMenu from '~/components/ui/TemplateMenu.vue'
+import { useScroll } from 'motion-v'
+import AppLogo from '~/components/AppLogo.vue'
 import ThemeToggle from '~/components/ui/ThemeToggle.vue'
 
-defineProps<{
-  links: NavigationMenuItem[]
-}>()
+// Assumes this composable is auto-imported or imported from ~/composables
+const navLinks = useNavLinks()
+const scroll = useScroll()
 </script>
 
 <template>
-  <!-- Floating Glassmophic Centered Header on Desktop and popover on small devices -->
+  <!-- UHeader is typically used in layout files -->
   <UHeader
-    data-aos="fade-down"
     mode="drawer"
+    :data-scroll="scroll.scrollY.get() > 0"
+    class="group"
     :ui="{
-      root: 'border border-accented fixed inset-x-0 mx-auto w-max top-4 rounded-lg backdrop-blur-lg bg-white/50 dark:bg-gray-900/50 z-50'
+      root: 'mx-2 border-none bg-transparent backdrop-blur-none pt-4',
+      container:
+        'max-w-(--ui-container) rounded-xl group-data-[scroll=true]:shadow-xl border border-default backdrop-blur-lg bg-default/50 transition-all duration-150 ease-out'
     }"
   >
-    <template #left>
-      <!-- Avatar with name at bottom -->
-      <div class="flex items-center space-x-2 flex-col sm:flex-row">
-        <UAvatar
-          :src="siteConfig.author.avatar?.src"
-          :alt="siteConfig.author.avatar?.alt"
-          size="sm"
-          color="neutral"
-        />
-        <span class="sm:inline font-medium">{{ siteConfig.author.name }}</span>
-      </div>
+    <template #title>
+      <AppLogo />
     </template>
 
-    <UNavigationMenu :items="links" />
+    <!-- Navigation links for desktop -->
+    <UNavigationMenu :items="navLinks" />
 
     <template #right>
       <ThemeToggle />
-      <TemplateMenu />
+
+      <UTooltip text="Open on GitHub" :kbds="['meta', 'G']">
+        <UButton
+          color="neutral"
+          variant="ghost"
+          to="https://github.com/nuxt/ui"
+          target="_blank"
+          icon="i-simple-icons-github"
+          aria-label="GitHub"
+        />
+      </UTooltip>
     </template>
 
+    <!-- Mobile menu body content -->
     <template #body>
-      <UNavigationMenu :items="links" orientation="vertical" class="-mx-2.5" />
+      <UNavigationMenu :items="navLinks" orientation="vertical" class="-mx-2.5" />
     </template>
   </UHeader>
 </template>

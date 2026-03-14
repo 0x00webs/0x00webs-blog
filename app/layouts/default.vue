@@ -8,12 +8,12 @@ const navLinks = useNavLinks()
 
 <template>
   <UApp>
-    <TheAppHeader :links="navLinks" />
-    <UMain>
-      <UContainer class="min-h-screen">
+    <UContainer class="min-h-screen">
+      <TheAppHeader :links="navLinks" />
+      <UMain>
         <NuxtPage />
-      </UContainer>
-    </UMain>
-    <TheAppFooter />
+      </UMain>
+      <TheAppFooter />
+    </UContainer>
   </UApp>
 </template>

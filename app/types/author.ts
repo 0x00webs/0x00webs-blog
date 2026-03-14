@@ -6,26 +6,26 @@ const ImageSchema = z.object({
 })
 
 const SocialLinksSchema = z.object({
-  twitter: z.optional(z.string()),
-  github: z.optional(z.string()),
-  linkedin: z.optional(z.string()),
-  website: z.optional(z.string())
+  twitter: z.string(),
+  github: z.string(),
+  linkedin: z.string(),
+  website: z.string()
 })
 
 const TechStackSchema = z.object({
   name: z.string(),
   slug: z.string(),
-  logo: ImageSchema.optional(),
-  url: z.optional(z.string())
+  logo: ImageSchema,
+  url: z.string()
 })
 
 const _AuthorSchema = z.object({
   name: z.string(),
-  email: z.optional(z.string()),
-  description: z.optional(z.string()),
-  avatar: ImageSchema.optional(),
-  socialLinks: SocialLinksSchema.optional(),
-  tech: z.optional(z.array(TechStackSchema))
+  email: z.string(),
+  description: z.string(),
+  avatar: ImageSchema,
+  socialLinks: SocialLinksSchema,
+  tech: z.array(TechStackSchema)
 })
 
 export type Author = z.infer<typeof _AuthorSchema>
