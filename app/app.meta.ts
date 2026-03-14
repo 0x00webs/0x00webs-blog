@@ -45,7 +45,7 @@ const author: Author = {
   ]
 }
 
-const siteConfig = {
+export const siteConfig = {
   id: '0x00webs-blog',
   name: '0x00webs Blog',
   headLine: 'Welcome to 0x00webs Blog',
@@ -56,4 +56,16 @@ const siteConfig = {
   author
 }
 
-export default siteConfig
+export const schemaOrgPerson = {
+  '@type': 'Person',
+  name: author.name,
+  description: author.description,
+  image: author.avatar?.src,
+  url: author.socialLinks?.website,
+  email: author.email,
+  sameAs: [
+    author.socialLinks?.twitter,
+    author.socialLinks?.github,
+    author.socialLinks?.linkedin
+  ].filter(Boolean)
+}

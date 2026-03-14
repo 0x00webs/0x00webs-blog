@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { motion } from 'motion-v';
-import siteConfig from '~/app.meta';
+import { siteConfig } from '~/app.meta';
 
 const { author } = siteConfig
 </script>

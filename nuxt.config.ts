@@ -13,12 +13,19 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-aos'
   ],
+
+  imports: {
+    dirs: ['src/**/*', 'composables/**/*'],
+    global: true
+  },
   devtools: {
     enabled: true
   },
   app: {
     head: {
-      title: '0x00webs Blog',
+      htmlAttrs: { lang: 'en' },
+      title: `0x00webs Blog`,
+      titleTemplate: '%s | 0x00webs Blog',
       meta: [
         {
           name: 'description',
@@ -97,6 +104,10 @@ export default defineNuxtConfig({
 
   css: ['~/assets/css/main.css'],
 
+  router: {
+    options: { scrollBehaviorType: 'smooth' }
+  },
+
   // Global site metadata for SEO and social sharing
   site: {
     url: process.env.NUXT_PUBLIC_SITE_URL,
@@ -106,14 +117,45 @@ export default defineNuxtConfig({
     twitter: '@0x00webs',
     github: '0x00webs',
     linkedin: '0x00webs',
-    email: '0x00webs@gmail.com'
+    email: '0x00webs@gmail.com',
+    defaultLocale: 'en'
   },
 
-  colorMode: {
-    preference: 'system',
-    fallback: 'light',
-    classSuffix: '',
-    storageKey: 'vueuse-color-scheme'
+  content: {
+    build: {
+      markdown: {
+        highlight: {
+          theme: 'dark-plus',
+          langs: [
+            'js',
+            'jsx',
+            'json',
+            'ts',
+            'tsx',
+            'vue',
+            'css',
+            'html',
+            'vue',
+            'bash',
+            'md',
+            'mdc',
+            'yaml',
+            'cpp',
+            'c',
+            'py'
+          ]
+        },
+        toc: {
+          depth: 3,
+          searchDepth: 3
+        },
+        remarkPlugins: {
+          'remark-reading-time': {},
+          'remark-math': {}
+        },
+        rehypePlugins: { 'rehype-katex': {} }
+      }
+    }
   },
 
   ui: {
@@ -122,8 +164,17 @@ export default defineNuxtConfig({
     }
   },
 
+  appConfig: {},
+  runtimeConfig: {},
+
   routeRules: {
-    '/': { prerender: true }
+    '/': { prerender: true },
+    '/_nuxt/**': {
+      cache: {
+        maxAge: 2592000,
+        staleMaxAge: 31536000
+      }
+    }
   },
 
   // HTTPS Development Server Configuration
@@ -137,6 +188,19 @@ export default defineNuxtConfig({
   },
 
   compatibilityDate: '2025-01-15',
+
+  nitro: {
+    debug: false,
+    experimental: { openAPI: false },
+    compressPublicAssets: { brotli: true },
+
+    prerender: {
+      crawlLinks: true,
+      failOnError: true,
+      ignore: ['/api', '/app'],
+      routes: ['/']
+    }
+  },
 
   // ── Vite Configuration for HMR and Development Server
   vite: {
@@ -217,7 +281,11 @@ export default defineNuxtConfig({
   icon: {
     size: '1.2em',
     class: 'icon',
-    serverBundle: 'auto'
+    serverBundle: 'auto',
+    fetchTimeout: 4000,
+    clientBundle: {
+      scan: true
+    }
   },
 
   // ── Image ──────────────────────────────────────────────────
@@ -245,17 +313,32 @@ export default defineNuxtConfig({
 
   // ── Robots ─────────────────────────────────────────────────
   robots: {
-    disallow: ['/dashboard', '/auth'],
+    disallow: ['/app/**', '/api/**', '/_nuxt/**'],
     allow: '/'
   },
 
   // ── Schema.org ─────────────────────────────────────────────
   schemaOrg: {
     identity: {
-      type: 'Organization',
-      name: 'FOTA',
-      logo: '/android-icon-192x192.png',
-      url: process.env.NUXT_PUBLIC_SITE_URL
+      '@type': 'Person',
+      name: '0x00webs',
+      url: process.env.NUXT_PUBLIC_SITE_URL || 'https://0x00webs-blog.vercel.app'
     }
+  },
+
+  sitemap: {
+    autoLastmod: true,
+    discoverImages: true,
+    exclude: ['/app/**', '/api/**', '/_nuxt/**', '/__nuxt_content/**'],
+    debug: false,
+    xslColumns: [
+      { label: 'URL', width: '60%' },
+      {
+        label: 'Images',
+        width: '20%',
+        select: 'count(image:image)'
+      },
+      { label: 'Last Modified', select: 'sitemap:lastmod', width: '20%' }
+    ]
   }
 })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import siteConfig from '~/app.meta'
+import { siteConfig } from '~/app.meta'
 </script>
 
 <template>

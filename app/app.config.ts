@@ -1,13 +1,39 @@
 export default defineAppConfig({
   ui: {
+    card: {
+      slots: {
+        body: 'flex flex-col gap-2'
+      }
+    },
+    formField: {
+      slots: {
+        container: 'flex flex-col gap-2',
+        help: 'm-0'
+      }
+    },
+    link: {
+      variants: {
+        active: {
+          false: 'text-dimmed'
+        }
+      }
+    },
+    container: {
+      base: ''
+    },
+    toaster: {
+      slots: {
+        viewport: 'z-10001'
+      }
+    },
     colors: {
       primary: 'amber',
       secondary: 'purple',
-      neutral: 'olive',
-      success: 'green',
-      info: 'blue',
-      warning: 'yellow',
-      error: 'red'
+      neutral: 'neutral',
+      info: 'info',
+      warning: 'warning',
+      success: 'success',
+      error: 'error'
     },
     icons: {
       loading: 'i-lucide-loader-circle',

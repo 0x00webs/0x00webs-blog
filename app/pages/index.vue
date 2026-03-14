@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { motion } from 'motion-v'
-import siteConfig from '~/app.meta'
+import { siteConfig } from '~/app.meta'
+import EmptyState from '~/components/ui/EmptyState.vue'
+import ErrorState from '~/components/ui/ErrorState.vue'
+import LoadingState from '~/components/ui/LoadingState.vue'
+import { getLatestArticles } from '~/composables/useContent'
+import { formatDate } from '~/utils/format'
 
 const { author, name: siteName } = siteConfig
 
@@ -25,9 +30,15 @@ const features = [
   }
 ]
 
-const { data: latestPosts } = await useAsyncData<any[]>('latestPosts', () =>
-  queryCollection('articles').order('date', 'DESC').limit(3).all()
-)
+const {
+  data: latestPosts,
+  pending,
+  error,
+  refresh
+} = await useAsyncData('latestPosts', () => getLatestArticles(3), {
+  server: true,
+  default: () => []
+})
 </script>
 
 <template>
@@ -152,37 +163,52 @@ const { data: latestPosts } = await useAsyncData<any[]>('latestPosts', () =>
         </UButton>
       </div>
 
-      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <motion.div
-          v-for="post in latestPosts"
-          :key="post.path"
-          class="group rounded-2xl border border-default bg-card/50 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
-          :initial="{ opacity: 0, y: 24 }"
-          :animate="{ opacity: 1, y: 0 }"
-          :transition="{ duration: 0.65, delay: 0.12 }"
-          data-aos="fade-up"
-        >
-          <div class="flex items-center justify-between gap-4">
-            <span class="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
-              {{ post.tags?.[0]?.name ?? 'Blog' }}
-            </span>
-            <span class="text-xs text-muted-foreground">{{
-              new Date(post.date).toLocaleDateString()
-            }}</span>
-          </div>
-          <h3 class="mt-4 text-lg font-semibold leading-snug">{{ post.title }}</h3>
-          <p class="mt-2 text-sm text-muted-foreground">{{ post.description }}</p>
-          <div class="mt-5">
-            <UButton
-              variant="ghost"
-              size="sm"
-              :to="`/articles/${post.path.split('/').pop()}`"
-              class="font-semibold"
-            >
-              Read more →
-            </UButton>
-          </div>
-        </motion.div>
+      <div class="mt-10">
+        <LoadingState v-if="pending" message="Loading latest posts…" />
+        <ErrorState
+          v-else-if="error"
+          title="Unable to load posts"
+          :message="error.message || 'Something went wrong while fetching posts.'"
+          :on-retry="() => refresh()"
+        />
+        <EmptyState
+          v-else-if="Array.isArray(latestPosts) && latestPosts.length === 0"
+          title="No posts yet"
+          description="I haven’t written anything yet. Check back soon for new articles."
+        />
+
+        <div v-else class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <motion.div
+            v-for="post in latestPosts"
+            :key="post.path"
+            class="group rounded-2xl border border-default bg-card/50 p-6 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
+            :initial="{ opacity: 0, y: 24 }"
+            :animate="{ opacity: 1, y: 0 }"
+            :transition="{ duration: 0.65, delay: 0.12 }"
+            data-aos="fade-up"
+          >
+            <div class="flex items-center justify-between gap-4">
+              <span class="rounded-full bg-primary/10 px-3 py-1 text-xs font-semibold text-primary">
+                {{ post.tags?.[0]?.name ?? 'Blog' }}
+              </span>
+              <span class="text-xs text-muted-foreground">
+                {{ formatDate(post.date) }}
+              </span>
+            </div>
+            <h3 class="mt-4 text-lg font-semibold leading-snug">{{ post.title }}</h3>
+            <p class="mt-2 text-sm text-muted-foreground">{{ post.description }}</p>
+            <div class="mt-5">
+              <UButton
+                variant="ghost"
+                size="sm"
+                :to="post.path ? `/articles/${post.path.split('/').pop()}` : '/articles'"
+                class="font-semibold"
+              >
+                Read more →
+              </UButton>
+            </div>
+          </motion.div>
+        </div>
       </div>
     </section>
 

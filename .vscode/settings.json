@@ -51,13 +51,13 @@
 		"*.ts": "typescript",
 		"*.vue": "vue"
 	},
-	"files.exclude": {
-		"**/.DS_Store": true,
-		"**/.git": true,
-		"**/.nuxt": true,
-		"**/dist": true,
-		"**/node_modules": true
-	},
+	// "files.exclude": {
+	// 	"**/.DS_Store": true,
+	// 	"**/.git": true,
+	// 	"**/.nuxt": true,
+	// 	"**/dist": true,
+	// 	"**/node_modules": true
+	// },
 	"js/ts.preferences.importModuleSpecifier": "non-relative",
 	"tailwindCSS.classAttributes": [
 		"class",

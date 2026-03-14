@@ -1,6 +1,12 @@
 <script setup lang="ts">
 import { motion } from 'motion-v'
 import { useRoute, useRouter } from 'vue-router'
+import EmptyState from '~/components/ui/EmptyState.vue'
+import ErrorState from '~/components/ui/ErrorState.vue'
+import LoadingState from '~/components/ui/LoadingState.vue'
+import { getArticleBySlug } from '~/composables/useContent'
+
+import { formatDate } from '~/utils/format'
 
 const route = useRoute()
 const router = useRouter()
@@ -9,24 +15,19 @@ const slug = String(route.params.slug || '')
 const {
   data: article,
   pending,
-  error
-} = await useAsyncData(`article-${slug}`, () =>
-  queryCollection('articles').path(`/articles/${slug}`).first()
-)
+  error,
+  refresh
+} = await useAsyncData(`article-${slug}`, () => getArticleBySlug(slug), {
+  server: true,
+  default: () => null
+})
 
 if (!pending.value && !error.value && !article.value) {
   // Redirect to articles index if slug is invalid
   router.replace('/articles')
 }
 
-const formattedDate = computed(() => {
-  if (!article.value?.date) return ''
-  return new Date(article.value.date).toLocaleDateString(undefined, {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  })
-})
+const formattedDate = computed(() => formatDate(article.value?.date))
 </script>
 
 <template>
@@ -38,11 +39,26 @@ const formattedDate = computed(() => {
       :transition="{ duration: 0.75 }"
       data-aos="fade-up"
     >
-      <div v-if="pending" class="rounded-2xl border border-default bg-card/40 p-8 text-center">
-        <p class="text-base font-medium">Loading article…</p>
-      </div>
+      <LoadingState v-if="pending" message="Loading article…" />
 
-      <div v-else-if="article">
+      <ErrorState
+        v-else-if="error"
+        title="Failed to load article"
+        :message="error.message || 'Something went wrong while fetching this article.'"
+        :on-retry="() => refresh()"
+      />
+
+      <EmptyState
+        v-else-if="!article"
+        title="Article not found"
+        description="This article may have been removed or the URL is incorrect."
+      >
+        <UButton variant="solid" color="primary" size="lg" to="/articles" class="mt-4">
+          Back to blog
+        </UButton>
+      </EmptyState>
+
+      <div v-else>
         <div class="space-y-3">
           <p class="text-sm font-semibold uppercase tracking-wide text-primary/70">
             {{ article.tags?.[0]?.name ?? 'Blog' }}
@@ -65,13 +81,6 @@ const formattedDate = computed(() => {
             Share
           </UButton>
         </div>
-      </div>
-
-      <div v-else class="rounded-2xl border border-default bg-card/40 p-8 text-center">
-        <p class="text-base font-medium">Article not found.</p>
-        <UButton variant="solid" color="primary" size="lg" to="/articles" class="mt-4">
-          Back to blog
-        </UButton>
       </div>
     </motion.section>
   </UContainer>
