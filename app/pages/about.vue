@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { motion } from 'motion-v';
-import { siteConfig } from '~/app.meta';
+import { motion } from 'motion-v'
+import { siteConfig } from '~/app.meta'
 
 const { author } = siteConfig
 </script>
@@ -14,7 +14,9 @@ const { author } = siteConfig
       :transition="{ duration: 0.75 }"
       data-aos="fade-up"
     >
-      <div class="flex flex-col items-center gap-6 rounded-2xl border border-default bg-card/40 p-8 shadow-sm">
+      <div
+        class="flex flex-col items-center gap-6 rounded-2xl border border-default bg-card/40 p-8 shadow-sm"
+      >
         <UAvatar
           :src="author.avatar.src"
           :alt="author.avatar.alt"
@@ -62,16 +64,14 @@ const { author } = siteConfig
 
       <div>
         <div class="prose prose-invert max-w-none">
-          <h2 class="text-2xl font-bold" data-aos="fade-right">
-            About this site
-          </h2>
+          <h2 class="text-2xl font-bold" data-aos="fade-right">About this site</h2>
           <p class="mt-4" data-aos="fade-right" data-aos-delay="60">
-            This site is a personal hub where I share what I’m building, the tools I use, and the lessons I learn
-            along the way.
+            This site is a personal hub where I share what I’m building, the tools I use, and the
+            lessons I learn along the way.
           </p>
           <p class="mt-3" data-aos="fade-right" data-aos-delay="80">
-            It’s intentionally minimal, focused on content, and built using the latest Nuxt tooling. Feel free to
-            fork the repo and customize it for your own projects.
+            It’s intentionally minimal, focused on content, and built using the latest Nuxt tooling.
+            Feel free to fork the repo and customize it for your own projects.
           </p>
 
           <h3 class="mt-10 text-xl font-semibold" data-aos="fade-right" data-aos-delay="120">

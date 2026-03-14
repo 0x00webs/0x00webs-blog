@@ -42,7 +42,8 @@
     "remark-math": "^6.0.0",
     "remark-reading-time": "^2.1.0",
     "tailwindcss": "^4.2.1",
-    "uuid": "^13.0.0"
+    "uuid": "^13.0.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@nuxt/eslint": "^1.15.2",

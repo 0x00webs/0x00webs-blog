@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   title: { type: String, default: 'Nothing here yet' },
   description: { type: String, default: 'Try adding some content or check back later.' }
 })

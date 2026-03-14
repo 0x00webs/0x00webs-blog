@@ -1,16 +1,20 @@
 import { defineCollection, defineContentConfig, z } from '@nuxt/content'
-import { asSitemapCollection } from '@nuxtjs/sitemap/content'
 
 const baseSchema = z.object({
   title: z.string(),
   headline: z.optional(z.string()),
   description: z.string(),
-  date: z.date()
+  date: z.string().or(z.date())
 })
 
 const imageSchema = z.object({
-  src: z.string().editor({ input: 'media' }),
+  src: z.string(),
   alt: z.string()
+})
+
+const tagSchema = z.object({
+  name: z.string(),
+  slug: z.string()
 })
 
 const socialLinksSchema = z.object({
@@ -20,54 +24,39 @@ const socialLinksSchema = z.object({
   website: z.optional(z.string())
 })
 
-const techStackSchema = z.object({
-  name: z.string(),
-  slug: z.string(),
-  logo: imageSchema.optional(),
-  url: z.optional(z.string())
-})
-
 const authorSchema = z.object({
   name: z.string(),
   description: z.optional(z.string()),
   avatar: imageSchema.optional(),
-  socialLinks: socialLinksSchema.optional(),
-  tech: z.optional(z.array(techStackSchema))
+  socialLinks: socialLinksSchema.optional()
 })
 
-const tagSchema = z.object({
-  name: z.string(),
-  slug: z.string()
+const articleSchema = baseSchema.extend({
+  tags: z.array(tagSchema).optional(),
+  author: authorSchema.optional(),
+  thumbnail: imageSchema.optional()
 })
 
-const projectSchema = z.object({
-  ...baseSchema.shape,
-  ...imageSchema.shape,
-  ...tagSchema.shape
+const projectSchema = baseSchema.extend({
+  name: z.string().optional(),
+  slug: z.string().optional(),
+  url: z.string().optional(),
+  src: z.string().optional(),
+  alt: z.string().optional(),
+  tag: z.string().optional()
 })
 
 export default defineContentConfig({
   collections: {
-    articles: defineCollection(
-      asSitemapCollection({
-        source: 'articles/**/*.md',
-        type: 'page',
-        schema: z.object({
-          ...baseSchema.shape,
-          thumbnail: imageSchema.optional(),
-          tags: z.optional(z.array(tagSchema)),
-          author: authorSchema.optional()
-        })
-      })
-    ),
-    projects: defineCollection(
-      asSitemapCollection({
-        type: 'data',
-        source: 'projects/**/*.yml',
-        schema: z.object({
-          ...projectSchema.shape
-        })
-      })
-    )
+    articles: defineCollection({
+      type: 'page',
+      source: 'articles/**/*.md',
+      schema: articleSchema
+    }),
+    projects: defineCollection({
+      type: 'data',
+      source: 'projects/**/*.yml',
+      schema: projectSchema
+    })
   }
 })

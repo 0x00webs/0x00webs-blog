@@ -6,7 +6,12 @@ import LoadingState from '~/components/ui/LoadingState.vue'
 import { getAllArticles } from '~/composables/useContent'
 import { formatDate } from '~/utils/format'
 
-const { data: articles, pending, error, refresh } = await useAsyncData('articles', () => getAllArticles(), {
+const {
+  data: articles,
+  pending,
+  error,
+  refresh
+} = await useAsyncData('articles', () => getAllArticles(), {
   server: true,
   default: () => []
 })
@@ -25,13 +30,11 @@ const { data: articles, pending, error, refresh } = await useAsyncData('articles
         <div>
           <h1 class="text-3xl font-bold">Blog</h1>
           <p class="mt-2 max-w-[44ch] text-muted-foreground">
-            A running log of ideas, experiments, and notes — written from the perspective of a dev who loves
-            building in public.
+            A running log of ideas, experiments, and notes — written from the perspective of a dev
+            who loves building in public.
           </p>
         </div>
-        <UButton variant="outline" size="lg" to="/about">
-          About me
-        </UButton>
+        <UButton variant="outline" size="lg" to="/about"> About me </UButton>
       </div>
 
       <div class="mt-6">
@@ -40,7 +43,7 @@ const { data: articles, pending, error, refresh } = await useAsyncData('articles
           v-else-if="error"
           title="Unable to load posts"
           :message="error.message || 'Something went wrong while fetching posts.'"
-          :onRetry="() => refresh()"
+          :on-retry="() => refresh()"
         />
         <EmptyState
           v-else-if="Array.isArray(articles) && articles.length === 0"

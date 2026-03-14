@@ -1,7 +1,7 @@
 import { z } from 'zod'
 
 const ImageSchema = z.object({
-  src: z.string().editor({ input: 'media' }),
+  src: z.string(),
   alt: z.string()
 })
 

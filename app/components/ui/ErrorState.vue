@@ -18,9 +18,9 @@
 <script setup lang="ts">
 import type { PropType } from 'vue';
 
-const props = defineProps({
+defineProps({
   title: { type: String, default: 'Something went wrong' },
   message: { type: String, default: 'Unable to load data. Please try again.' },
-  onRetry: { type: Function as PropType<() => void | Promise<void>> }
+  onRetry: { type: Function as PropType<() => void | Promise<void>>, default: undefined }
 })
 </script>

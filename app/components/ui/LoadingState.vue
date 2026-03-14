@@ -21,7 +21,7 @@
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
+defineProps({
   message: {
     type: String,
     default: 'Loading…'

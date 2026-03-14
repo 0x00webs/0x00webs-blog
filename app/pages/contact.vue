@@ -23,14 +23,17 @@ const sendEmail = () => {
       <div>
         <h1 class="text-3xl font-bold">Get in touch</h1>
         <p class="mt-2 max-w-[44ch] text-muted-foreground">
-          Have a question or want to collaborate? Drop me a note — I’ll usually respond within a few days.
+          Have a question or want to collaborate? Drop me a note — I’ll usually respond within a few
+          days.
         </p>
       </div>
 
       <div class="grid gap-6 sm:grid-cols-2">
         <div class="rounded-2xl border border-default bg-card/40 p-6">
           <h2 class="text-xl font-semibold">Email</h2>
-          <p class="mt-1 text-sm text-muted-foreground">Send me a note and I’ll follow up as soon as I can.</p>
+          <p class="mt-1 text-sm text-muted-foreground">
+            Send me a note and I’ll follow up as soon as I can.
+          </p>
           <div class="mt-4">
             <UButton variant="solid" color="primary" size="lg" @click="sendEmail">Email me</UButton>
           </div>

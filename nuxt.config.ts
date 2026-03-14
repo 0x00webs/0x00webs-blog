@@ -13,6 +13,10 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     'nuxt-aos'
   ],
+  components: [
+    { path: '~/components', global: true },
+    { path: './node_modules/@nuxt/ui/dist/runtime/components', global: true }
+  ],
 
   imports: {
     dirs: ['src/**/*', 'composables/**/*'],
